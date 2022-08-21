@@ -10,11 +10,23 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "ArrayMesh",
+"class": "Geodesic",
+"language": "GDScript",
+"path": "res://GoldbergSphere.gd"
+}, {
+"base": "Reference",
+"class": "Geometry",
+"language": "GDScript",
+"path": "res://Geometry.gd"
+}, {
+"base": "ArrayMesh",
 "class": "IcosphereMesh",
 "language": "GDScript",
 "path": "res://addons/IcosphereMesh/IcosphereMesh.gd"
 } ]
 _global_script_class_icons={
+"Geodesic": "",
+"Geometry": "",
 "IcosphereMesh": ""
 }
 

@@ -6,6 +6,8 @@ extends ArrayMesh
 class_name IcosphereMesh
 
 export var subdivisions : int = 2 setget set_subdivisions
+
+
 func set_subdivisions(value):
 	value = clamp(value, 0,6)
 	if not value == subdivisions:
@@ -13,6 +15,8 @@ func set_subdivisions(value):
 		update_mesh()
 
 export var diameter := 1.0 setget set_diameter
+
+
 func set_diameter(value):
 	if not diameter ==  value:
 		diameter = value
@@ -49,7 +53,7 @@ func update_mesh():
 ## scale vertices
 	for i in vertices.size():
 		vertices[i] = vertices[i] * diameter
-## convert tiangles to PoolIntArray
+## convert triangles to PoolIntArray
 	var triangles_pi : PoolIntArray = []
 	for triangle in triangles:
 		triangles_pi.append(triangle[0])
