@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Globe.gd" type="Script" id=1]
 [ext_resource path="res://triangle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/CamBase.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/ArrayMesh.tres" type="ArrayMesh" id=4]
+[ext_resource path="res://Scripts/MeshGen.gd" type="Script" id=5]
 
 [node name="Globe" type="Spatial"]
 script = ExtResource( 1 )
@@ -20,4 +21,10 @@ script = ExtResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 6.51013, -0.00842714 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+visible = false
 mesh = ExtResource( 4 )
+
+[node name="Spatial" type="Spatial" parent="."]
+script = ExtResource( 5 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
