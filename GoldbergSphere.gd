@@ -5,7 +5,7 @@ class_name Geodesic
 
 
 func make_geo(geo): # geo: type Geometry
-  Vector3 gverts = geo.raw_verts()
+  gverts = geo.raw_verts()
 
   gverts = base.verts();
   geo.colors(VERTS) = base.colors(VERTS);
