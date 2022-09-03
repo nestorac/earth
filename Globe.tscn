@@ -13,6 +13,7 @@ units_node = NodePath("Cell")
 
 [node name="Cell" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.194597 )
+visible = false
 
 [node name="CamBase" type="Spatial" parent="."]
 script = ExtResource( 3 )
@@ -28,3 +29,5 @@ mesh = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
