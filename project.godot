@@ -23,11 +23,23 @@ _global_script_classes=[ {
 "class": "IcosphereMesh",
 "language": "GDScript",
 "path": "res://addons/IcosphereMesh/IcosphereMesh.gd"
+}, {
+"base": "Node",
+"class": "MeshOfSquares",
+"language": "GDScript",
+"path": "res://Scripts/MeshOfSquares.gd"
+}, {
+"base": "MeshInstance",
+"class": "Square",
+"language": "GDScript",
+"path": "res://Scripts/Square.gd"
 } ]
 _global_script_class_icons={
 "Geodesic": "",
 "Geometry": "",
-"IcosphereMesh": ""
+"IcosphereMesh": "",
+"MeshOfSquares": "",
+"Square": ""
 }
 
 [application]
