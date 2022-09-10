@@ -12,6 +12,11 @@ func _ready():
 	squares[0].play()
 	
 	squares.append(square)
-	squares[1].set_offset(2,2)
+	squares[1].set_offset(1,1)
 	squares[1].init()
 	squares[1].play()
+	
+	squares.append(square)
+	squares[2].set_offset(2,2)
+	squares[2].init()
+	squares[2].play()
