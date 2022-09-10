@@ -4,10 +4,11 @@
 [ext_resource path="res://triangle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/CamBase.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/ArrayMesh.tres" type="ArrayMesh" id=4]
-[ext_resource path="res://Scripts/Square.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/MeshOfSquares.gd" type="Script" id=7]
 
 [sub_resource type="PlaneMesh" id=1]
+
+[sub_resource type="MultiMesh" id=2]
 
 [node name="Globe" type="Spatial"]
 script = ExtResource( 1 )
@@ -38,8 +39,5 @@ visible = false
 mesh = SubResource( 1 )
 
 [node name="MultiMeshInstance" type="MultiMeshInstance" parent="."]
+multimesh = SubResource( 2 )
 script = ExtResource( 7 )
-
-[node name="Square" type="MeshInstance" parent="MultiMeshInstance"]
-skeleton = NodePath("")
-script = ExtResource( 6 )

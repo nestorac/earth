@@ -9,16 +9,16 @@ var mat = SpatialMaterial.new()
 export var color = Color(0.9, 0.1, 0.1)
 
 
-func set_offset(offset_x, offset_z):
-	vertices.push_back(Vector3(offset_x + 1, 0, offset_z + 0))
-	vertices.push_back(Vector3(offset_x + 1, 0, offset_z + 1))
-	vertices.push_back(Vector3(offset_x + 0, 0, offset_z + 1))
-	vertices.push_back(Vector3(offset_x + 0, 0, offset_z + 0))
+func load_fig():
+	vertices.push_back(Vector3(1, 0, 0))
+	vertices.push_back(Vector3(1, 0, 1))
+	vertices.push_back(Vector3(0, 0, 1))
+	vertices.push_back(Vector3(0, 0, 0))
 
-	UVs.push_back(Vector2(offset_x + 0, offset_z + 0))
-	UVs.push_back(Vector2(offset_x + 0, offset_z + 1))
-	UVs.push_back(Vector2(offset_x + 1, offset_z + 1))
-	UVs.push_back(Vector2(offset_x + 1, offset_z + 0))
+	UVs.push_back(Vector2(0, 0))
+	UVs.push_back(Vector2(0, 1))
+	UVs.push_back(Vector2(1, 1))
+	UVs.push_back(Vector2(1, 0))
 
 
 func init():
@@ -41,4 +41,7 @@ func play():
 
 
 func _ready():
-	pass
+	color = Color(rand_range(0,1), rand_range(0,1), rand_range(0,1))
+	load_fig()
+	init()
+	play()
