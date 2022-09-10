@@ -21,7 +21,7 @@ func set_offset(offset_x, offset_z):
 	UVs.push_back(Vector2(offset_x + 1, offset_z + 0))
 
 
-func play():
+func init():
 	mat.albedo_color = color
 
 	var st = SurfaceTool.new()
@@ -34,7 +34,9 @@ func play():
 		st.add_vertex(vertices[v])
 
 	st.commit(tmpMesh)
-	
+
+
+func play():
 	$".".mesh = tmpMesh
 
 
