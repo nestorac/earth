@@ -4,6 +4,7 @@ class_name Square
 
 enum {WATER, LAND, ICE, GRASS}
 
+var escaque_label = Label3D.new()
 
 var tmpMesh = Mesh.new()
 var vertices = PoolVector3Array()
@@ -12,19 +13,21 @@ var mat = SpatialMaterial.new()
 var color = Color(0.5, 0, 0)
 export var terrain = WATER
 
-var up = 0
-var down = 0
-var left = 0
-var right = 0
+var up
+var down
+var left
+var right
+
+var escaque = Vector2(0,0)
 
 func set_neighbors(_up, _down, _left, _right):
-	if (_up != 0):
+	if (_up != null):
 		up = _up 
-	if (_down != 0):
+	if (_down != null):
 		down = _down
-	if (_left != 0):
+	if (_left != null):
 		left = _left
-	if (_right != 0):
+	if (_right != null):
 		right = _right
 
 func set_terrain(terrain):
@@ -76,8 +79,16 @@ func play():
 	$".".mesh = tmpMesh
 
 
+func escaquear():
+	escaque_label.scale = Vector3(3,3,3)
+	escaque_label.rotation_degrees = Vector3(-90,0,0)
+	escaque_label.transform.origin = Vector3(0,0.2,0)
+	add_child(escaque_label)
+
+
 func _ready():
 	
 	load_fig()
 	init()
 	play()
+	escaquear()
