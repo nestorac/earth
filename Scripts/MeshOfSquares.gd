@@ -27,7 +27,7 @@ func _ready():
 	
 #	print (squares)
 	
-	
+	for i in range
 	
 	for i in range(width):
 		for j in range(height):
@@ -49,3 +49,4 @@ func _ready():
 			else:
 				right = null
 			square_instance.set_neighbors(up, down, left, right)
+			square_instance.update_terrain()

@@ -30,10 +30,17 @@ func set_neighbors(_up, _down, _left, _right):
 	if (_right != null):
 		right = _right
 
-func set_terrain(terrain):
-	
-	terrain = randi()%4
-	
+
+func update_terrain():
+	randomize()
+	if (not left):
+		terrain = randi()%4
+	else:
+		terrain = left.terrain
+		print (left.terrain)
+
+#	terrain = randi() % 4
+
 	match terrain:
 		WATER:
 			color = Color(0.1, 0.1, 1)
@@ -43,6 +50,24 @@ func set_terrain(terrain):
 			color = Color(0.15, 1, 1)
 		GRASS:
 			color = Color(0.1, 0.7, 0.1)
+
+	mat.albedo_color = color
+
+
+func set_terrain(_terrain):
+	
+	terrain = _terrain
+	
+	match _terrain:
+		WATER:
+			color = Color(0.1, 0.1, 1)
+		LAND:
+			color = Color(1, 0.66, 0)
+		ICE:
+			color = Color(0.15, 1, 1)
+		GRASS:
+			color = Color(0.1, 0.7, 0.1)
+
 	mat.albedo_color = color
 
 
@@ -65,7 +90,7 @@ func init():
 	st.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
 	st.set_material(mat)
 
-	set_terrain(WATER)
+#	set_terrain(global_terrain)
 
 	for v in vertices.size(): 
 		st.add_color(color)
