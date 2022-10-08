@@ -4,7 +4,23 @@ var square = preload("res://Scenes/Square.tscn")
 export var width = 10
 export var height = 5
 
+enum {WATER, LAND, ICE, GRASS}
+
 var squares = []
+
+func update_terrains():
+	var square_instance
+	
+	for i in range(width):
+		for j in range(height):
+			square_instance = squares[i][j]
+			square_instance.set_terrain(WATER)
+			print("Update terrains ", i, " ", j)
+
+
+func _process(delta):
+	if Input.is_action_pressed("update_terrains"):
+		update_terrains()
 
 func _ready():
 	var square_instance
@@ -27,8 +43,6 @@ func _ready():
 	
 #	print (squares)
 	
-	for i in range
-	
 	for i in range(width):
 		for j in range(height):
 			if (i > 0):
@@ -49,4 +63,4 @@ func _ready():
 			else:
 				right = null
 			square_instance.set_neighbors(up, down, left, right)
-			square_instance.update_terrain()
+			

@@ -32,12 +32,14 @@ func set_neighbors(_up, _down, _left, _right):
 
 
 func update_terrain():
-	randomize()
-	if (not left):
-		terrain = randi()%4
-	else:
-		terrain = left.terrain
-		print (left.terrain)
+#	randomize()
+#	if (not left):
+#		terrain = randi()%4
+#	else:
+#		terrain = left.terrain
+#		print (left.terrain)
+		
+	terrain = WATER
 
 #	terrain = randi() % 4
 

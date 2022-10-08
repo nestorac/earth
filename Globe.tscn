@@ -41,5 +41,3 @@ mesh = SubResource( 1 )
 [node name="MultiMeshInstance" type="MultiMeshInstance" parent="."]
 multimesh = SubResource( 2 )
 script = ExtResource( 7 )
-width = null
-height = null
