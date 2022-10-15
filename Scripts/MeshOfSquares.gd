@@ -8,15 +8,16 @@ enum {WATER, LAND, ICE, GRASS}
 
 var squares = []
 
-func update_terrains():
-	var square_instance
-	
-	for i in range(width):
-		for j in range(height):
-			square_instance = squares[i][j]
-			square_instance.set_terrain(WATER)
-			print("Update terrains ", i, " ", j)
+#func update_terrains():
+#
+#	for i in range(width):
+#		for j in range(height):
+##			squares[i][j].set_terrain(WATER)
 
+func update_terrains():
+	for child in get_children():
+		child.set_terrain(ICE)
+		print(child)
 
 func _process(delta):
 	if Input.is_action_pressed("update_terrains"):
@@ -39,6 +40,7 @@ func _ready():
 			square_instance.escaque = Vector2(i, j)
 			square_instance.escaque_label.text = str(i) + " " + str(j)
 			square_instance.transform.origin = Vector3(i,0,j)
+			square_instance.set_name("test_" + str(i) + "_" + str(j))
 	
 	
 #	print (squares)

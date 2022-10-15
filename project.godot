@@ -10,16 +10,6 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "ArrayMesh",
-"class": "Geodesic",
-"language": "GDScript",
-"path": "res://GoldbergSphere.gd"
-}, {
-"base": "Reference",
-"class": "Geometry",
-"language": "GDScript",
-"path": "res://Geometry.gd"
-}, {
-"base": "ArrayMesh",
 "class": "IcosphereMesh",
 "language": "GDScript",
 "path": "res://addons/IcosphereMesh/IcosphereMesh.gd"
@@ -30,8 +20,6 @@ _global_script_classes=[ {
 "path": "res://Scripts/Square.gd"
 } ]
 _global_script_class_icons={
-"Geodesic": "",
-"Geometry": "",
 "IcosphereMesh": "",
 "Square": ""
 }
@@ -82,6 +70,11 @@ zoom_out={
 update_terrains={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+our_set_material={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":75,"unicode":0,"echo":false,"script":null)
  ]
 }
 
