@@ -82,6 +82,9 @@ func set_terrain(_terrain):
 	material.albedo_color = color
 
 
+func choose_random(array:Array):
+	array.shuffle()
+	return array.front()
 
 
 func load_fig():

@@ -20,7 +20,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.194597 )
 visible = false
 
 [node name="CamBase" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 10, 10 )
 script = ExtResource( 3 )
+max_zoom = 100
 
 [node name="Camera" type="Camera" parent="CamBase"]
 transform = Transform( 1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 6.51013, -0.00842714 )

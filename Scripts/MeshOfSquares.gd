@@ -1,10 +1,11 @@
 extends MultiMeshInstance
 
 var square = preload("res://Scenes/Square.tscn")
-export var width = 10
-export var height = 5
+export var width = 30
+export var height = 20
 
 enum {WATER, LAND, ICE, GRASS}
+export var islands = 5
 
 var squares = []
 
@@ -14,14 +15,29 @@ var squares = []
 #		for j in range(height):
 ##			squares[i][j].set_terrain(WATER)
 
-func update_terrains():
+
+func create_sea():
 	for child in get_children():
-		child.set_terrain(ICE)
-		print(child)
+		child.set_terrain(WATER)
+
+func random_land(terrain):
+	var array = get_children()
+	array.shuffle()
+	var random_land = array.front()
+	random_land.set_terrain(terrain)
+	
+
+
+func update_terrains_random():
+	for child in get_children():
+		child.set_terrain(child.choose_random([WATER, LAND, ICE, GRASS]))
+
 
 func _process(delta):
 	if Input.is_action_pressed("update_terrains"):
-		update_terrains()
+		create_sea()
+		for i in islands:
+			random_land(LAND)
 
 func _ready():
 	var square_instance
@@ -43,8 +59,6 @@ func _ready():
 			square_instance.set_name("test_" + str(i) + "_" + str(j))
 	
 	
-#	print (squares)
-	
 	for i in range(width):
 		for j in range(height):
 			if (i > 0):
@@ -61,7 +75,6 @@ func _ready():
 				left = null
 			if (j < height -1):
 				right = squares[i][j+1]
-				print (j)
 			else:
 				right = null
 			square_instance.set_neighbors(up, down, left, right)
