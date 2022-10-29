@@ -1,8 +1,8 @@
 extends MultiMeshInstance
 
 var square = preload("res://Scenes/Square.tscn")
-export var width = 30
-export var height = 20
+export var width = 50
+export var height = 50
 
 enum {WATER, LAND, ICE, GRASS}
 export var islands = 5
@@ -28,12 +28,41 @@ func random_land(terrain):
 	
 
 
+func impact(x, y, radius, terrain):
+	var square = get_square(x,y)
+	square.set_terrain(terrain)
+	
+	for i in range(radius):
+		for j in range((radius)-((i*i)/round(((PI*PI)*2)))):
+			square = get_square(x+i, y+j)
+			square.set_terrain(terrain)
+			square = get_square(x+i, y-j)
+			square.set_terrain(terrain)
+			square = get_square(x-i,y+j)
+			square.set_terrain(terrain)
+			square = get_square(x-i,y-j)
+			square.set_terrain(terrain)
+
+
+func get_square(x, y):
+	if (x <= width) and (y <= height):
+		return get_node("test_" + str(x) + "_" + str(y))
+	else:
+		print ("Coordinates must be lower than " + str(width) + " width and " + str(height) + " height.")
+		
+
 func update_terrains_random():
 	for child in get_children():
 		child.set_terrain(child.choose_random([WATER, LAND, ICE, GRASS]))
 
 
 func _process(delta):
+	if Input.is_action_pressed("test1"):
+		impact(30,30,5,WATER)
+#		var sqr = get_square(5,100)
+#		if (sqr != null):
+#			sqr.set_terrain(ICE)
+#			print(sqr)
 	if Input.is_action_pressed("update_terrains"):
 		create_sea()
 		for i in islands:
