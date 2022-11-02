@@ -18,30 +18,30 @@ var squares = []
 
 func create_sea():
 	for child in get_children():
-		child.set_terrain(WATER)
+		child.set_terrain(WATER, 1.0)
 
 func random_land(terrain):
 	var array = get_children()
 	array.shuffle()
 	var random_land = array.front()
-	random_land.set_terrain(terrain)
+	random_land.set_terrain(terrain, 1.0)
 	
 
 
 func impact(x, y, radius, terrain):
 	var square = get_square(x,y)
-	square.set_terrain(terrain)
+	square.set_terrain(terrain, 0.5)
 	
 	for i in range(radius):
-		for j in range((radius)-((i*i)/round(((PI*PI)*2)))):
+		for j in range((radius)-round((i*i)/((PI*PI*2)))):
 			square = get_square(x+i, y+j)
-			square.set_terrain(terrain)
+			square.set_terrain(terrain, 0.5)
 			square = get_square(x+i, y-j)
-			square.set_terrain(terrain)
+			square.set_terrain(terrain, 0.5)
 			square = get_square(x-i,y+j)
-			square.set_terrain(terrain)
+			square.set_terrain(terrain, 0.5)
 			square = get_square(x-i,y-j)
-			square.set_terrain(terrain)
+			square.set_terrain(terrain, 0.5)
 
 
 func get_square(x, y):
@@ -58,7 +58,7 @@ func update_terrains_random():
 
 func _process(delta):
 	if Input.is_action_pressed("test1"):
-		impact(30,30,5,WATER)
+		impact(20,20,15,WATER)
 #		var sqr = get_square(5,100)
 #		if (sqr != null):
 #			sqr.set_terrain(ICE)

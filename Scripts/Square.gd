@@ -14,6 +14,8 @@ var color = Color(0.5, 0, 0)
 export var terrain = WATER
 var st = SurfaceTool.new()
 
+var depth = 1.0 # between 0 and 1
+
 var up
 var down
 var left
@@ -64,20 +66,20 @@ func set_neighbors(_up, _down, _left, _right):
 ##	st.set_material(mat)
 
 
-func set_terrain(_terrain):
+func set_terrain(_terrain, depth):
 
 	var material = get_surface_material(0)
 	terrain = _terrain
 
 	match terrain:
 		WATER:
-			color = Color(0.1, 0.1, 1)
+			color = Color(depth*0.1, depth*0.1, depth*1)
 		LAND:
-			color = Color(1, 0.66, 0)
+			color = Color(depth*1, depth*0.66, depth*0)
 		ICE:
-			color = Color(0.15, 1, 1)
+			color = Color(depth*0.15, depth*1, depth*1)
 		GRASS:
-			color = Color(0.1, 0.7, 0.1)
+			color = Color(depth*0.1, depth*0.7, depth*0.1)
 
 	material.albedo_color = color
 
