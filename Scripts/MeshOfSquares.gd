@@ -30,18 +30,27 @@ func random_land(terrain):
 
 func impact(x, y, radius, terrain):
 	var square = get_square(x,y)
-	square.set_terrain(terrain, 0.5)
+	# square.set_terrain(terrain, 1.0)
 	
 	for i in range(radius):
-		for j in range((radius)-round((i*i)/((PI*PI*2)))):
+		var distance = round ( radius - round( (i*i) / (PI*PI*2) ) )
+		for j in range( distance ):
+			var aliasing
+			if (j < distance):
+				aliasing = 0.7
+#				print ("Aliasing: " + str(aliasing))
+			else:
+				aliasing = 1.0
+#				print ("Aliasing: " + str(aliasing))
+				
 			square = get_square(x+i, y+j)
-			square.set_terrain(terrain, 0.5)
+			square.set_terrain(terrain, aliasing)
 			square = get_square(x+i, y-j)
-			square.set_terrain(terrain, 0.5)
+			square.set_terrain(terrain, aliasing)
 			square = get_square(x-i,y+j)
-			square.set_terrain(terrain, 0.5)
+			square.set_terrain(terrain, aliasing)
 			square = get_square(x-i,y-j)
-			square.set_terrain(terrain, 0.5)
+			square.set_terrain(terrain, aliasing)
 
 
 func get_square(x, y):
