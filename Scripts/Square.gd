@@ -2,19 +2,19 @@ extends MeshInstance
 
 class_name Square
 
-enum {WATER, LAND, ICE, GRASS}
-
 var escaque_label = Label3D.new()
 
 var tmpMesh = Mesh.new()
 var vertices = PoolVector3Array()
 var UVs = PoolVector2Array()
 var mat = SpatialMaterial.new()
-var color = Color(0.5, 0, 0)
-export var terrain = WATER
+var color = Color(0, 0, 0)
 var st = SurfaceTool.new()
 
-var depth = 1.0 # between 0 and 1
+var water_depth = 0.0 # between 0 and 1
+var land_depth = 0.5 # between 0 and 1
+var ice_depth = 0.0 # between 0 and 1
+var grass = false
 
 var up
 var down
@@ -23,6 +23,10 @@ var right
 
 var escaque = Vector2(0,0)
 
+
+func _process(delta):
+	if Input.is_action_pressed("test2"):
+		draw_square()
 
 func set_neighbors(_up, _down, _left, _right):
 	if (_up != null):
@@ -66,22 +70,29 @@ func set_neighbors(_up, _down, _left, _right):
 ##	st.set_material(mat)
 
 
-func set_terrain(_terrain, depth):
+func add_terrain_water(water):
+	water_depth += water
+	if water_depth > 1.0:
+		water_depth = 1.0
+	draw_square()
 
+func draw_square():
 	var material = get_surface_material(0)
-	terrain = _terrain
-
-	match terrain:
-		WATER:
-			color = Color(depth*0.1, depth*0.1, depth*1)
-		LAND:
-			color = Color(depth*1, depth*0.66, depth*0)
-		ICE:
-			color = Color(depth*0.15, depth*1, depth*1)
-		GRASS:
-			color = Color(depth*0.1, depth*0.7, depth*0.1)
-
+	if ice_depth > 0:
+		color = Color(ice_depth*0.15, ice_depth*1, ice_depth*1)
+	elif water_depth > 0:
+		color = Color(water_depth*0.1, water_depth*0.1, water_depth*1)
+		if land_depth > 0:
+			color = color + Color(land_depth*1, land_depth*0.66, land_depth*0)
+	elif (land_depth > 0):
+		color = Color(land_depth*1, land_depth*0.66, land_depth*0)
+	if grass:
+		color = Color(0.1, 0.7, 0.1)
 	material.albedo_color = color
+
+
+#func set_terrain(_terrain, depth):
+
 
 
 func choose_random(array:Array):
@@ -134,6 +145,8 @@ func _ready():
 	load_fig()
 	init()
 	play()
-	escaquear()
+#	escaquear() # Draw coordinates on every square. Debugging purposes.
 	
 	set_surface_material(0, _material)
+	
+	draw_square()

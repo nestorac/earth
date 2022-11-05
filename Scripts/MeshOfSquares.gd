@@ -27,30 +27,40 @@ func random_land(terrain):
 	random_land.set_terrain(terrain, 1.0)
 	
 
+func get_random_coordinates():
+	randomize()
+	var x = randi() % (width - 1)
+	var y = randi() % (height - 1)
+	
+	return [x,y]
 
 func impact(x, y, radius, terrain):
 	var square = get_square(x,y)
 	# square.set_terrain(terrain, 1.0)
 	
 	for i in range(radius):
+		var aliasing = 1.0
 		var distance = round ( radius - round( (i*i) / (PI*PI*2) ) )
+#		print ("i: " + str(i) + ", radius: " + str(radius))
 		for j in range( distance ):
-			var aliasing
-			if (j < distance):
-				aliasing = 0.7
-#				print ("Aliasing: " + str(aliasing))
+			if (j == (distance - 1) ):
+				aliasing = fmod((i*i) / (PI*PI*2), 1.0)
+				print (aliasing)
 			else:
 				aliasing = 1.0
-#				print ("Aliasing: " + str(aliasing))
-				
+			
 			square = get_square(x+i, y+j)
-			square.set_terrain(terrain, aliasing)
+			if square:
+				square.add_terrain_water(aliasing)
 			square = get_square(x+i, y-j)
-			square.set_terrain(terrain, aliasing)
+			if square:
+				square.add_terrain_water(aliasing)
 			square = get_square(x-i,y+j)
-			square.set_terrain(terrain, aliasing)
+			if square:
+				square.add_terrain_water(aliasing)
 			square = get_square(x-i,y-j)
-			square.set_terrain(terrain, aliasing)
+			if square:
+				square.add_terrain_water(aliasing)
 
 
 func get_square(x, y):
@@ -67,11 +77,8 @@ func update_terrains_random():
 
 func _process(delta):
 	if Input.is_action_pressed("test1"):
-		impact(20,20,15,WATER)
-#		var sqr = get_square(5,100)
-#		if (sqr != null):
-#			sqr.set_terrain(ICE)
-#			print(sqr)
+		var xy = get_random_coordinates()
+		impact(xy[0],xy[1],randi()%20,WATER)
 	if Input.is_action_pressed("update_terrains"):
 		create_sea()
 		for i in islands:
