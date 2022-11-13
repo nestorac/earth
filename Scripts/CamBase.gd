@@ -25,7 +25,7 @@ var start_selection_position = Vector2()
 
 func _process(delta):
 	var mouse_position = get_viewport().get_mouse_position()
-	calc_move(delta, mouse_position)
+#	calc_move(delta, mouse_position)
 #	mouse_rotate(delta)
 	zoom(delta)
 
@@ -67,40 +67,40 @@ func get_mouse_displ():
 	last_mouse_position = current_mouse_position
 	return displacement
 
-func rotate_horizontal(delta, displacement_x):
-	rotation_degrees.y += displacement_x * delta * rot_speed
-	
-	
-func rotate_horizontal_right(delta):
-	rotation_degrees.y += horizontal_displacement * delta * rot_speed
-	
-	
-func rotate_horizontal_left(delta):
-	rotation_degrees.y -= horizontal_displacement * delta * rot_speed
-	
-	
-func rotate_vertical_up(delta):
-	rotation_degrees.x += vertical_displacement * delta * rot_speed
+#func rotate_horizontal(delta, displacement_x):
+#	rotation_degrees.y += displacement_x * delta * rot_speed
+#
+#
+#func rotate_horizontal_right(delta):
+#	rotation_degrees.y += horizontal_displacement * delta * rot_speed
+#
+#
+#func rotate_horizontal_left(delta):
+#	rotation_degrees.y -= horizontal_displacement * delta * rot_speed
+#
+#
+#func rotate_vertical_up(delta):
+#	rotation_degrees.x += vertical_displacement * delta * rot_speed
+#
+#
+#func rotate_vertical_down(delta):
+#	rotation_degrees.x -= vertical_displacement * delta * rot_speed
 	
 
-func rotate_vertical_down(delta):
-	rotation_degrees.x -= vertical_displacement * delta * rot_speed
-	
-
-func calc_move(delta, m_pos):
-#	if is_rotating:
-#		return
-	
-	var viewport_size = get_viewport().size
-	var move_vector = Vector3()
-	if m_pos.x < MOVE_MARGIN:
-		rotate_horizontal_left(delta)
-	if m_pos.y < MOVE_MARGIN:
-		rotate_vertical_down(delta)
-	if m_pos.x > ( viewport_size.x - MOVE_MARGIN ):
-		rotate_horizontal_right(delta)
-	if m_pos.y > ( viewport_size.y - MOVE_MARGIN ):
-		rotate_vertical_up(delta)
-	
-	global_translate(move_vector * MOVE_SPEED * delta)
+#func calc_move(delta, m_pos):
+##	if is_rotating:
+##		return
+#
+#	var viewport_size = get_viewport().size
+#	var move_vector = Vector3()
+#	if m_pos.x < MOVE_MARGIN:
+#		rotate_horizontal_left(delta)
+#	if m_pos.y < MOVE_MARGIN:
+#		rotate_vertical_down(delta)
+#	if m_pos.x > ( viewport_size.x - MOVE_MARGIN ):
+#		rotate_horizontal_right(delta)
+#	if m_pos.y > ( viewport_size.y - MOVE_MARGIN ):
+#		rotate_vertical_up(delta)
+#
+#	global_translate(move_vector * MOVE_SPEED * delta)
 

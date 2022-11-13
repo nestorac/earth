@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Globe.gd" type="Script" id=1]
 [ext_resource path="res://triangle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/CamBase.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/ArrayMesh.tres" type="ArrayMesh" id=4]
+[ext_resource path="res://Scripts/UImenu.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/MeshOfSquares.gd" type="Script" id=7]
 
 [sub_resource type="PlaneMesh" id=1]
@@ -43,3 +44,35 @@ mesh = SubResource( 1 )
 [node name="MultiMeshInstance" type="MultiMeshInstance" parent="."]
 multimesh = SubResource( 2 )
 script = ExtResource( 7 )
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 639, 209 )
+script = ExtResource( 5 )
+
+[node name="BtWater" type="Button" parent="UI"]
+margin_left = 18.0
+margin_top = 18.0
+margin_right = 68.0
+margin_bottom = 38.0
+rect_scale = Vector2( 3.2411, 2.85379 )
+text = "Water"
+
+[node name="BtEarth" type="Button" parent="UI"]
+margin_left = 22.0
+margin_top = 94.0
+margin_right = 72.0
+margin_bottom = 114.0
+rect_scale = Vector2( 3.12496, 2.51868 )
+text = "Earth"
+
+[node name="BtIce" type="Button" parent="UI"]
+margin_left = 23.0
+margin_top = 157.0
+margin_right = 73.0
+margin_bottom = 177.0
+rect_scale = Vector2( 3.09361, 2.66945 )
+text = "Ice"
+
+[connection signal="button_up" from="UI/BtWater" to="UI" method="_on_BtWater_button_up"]

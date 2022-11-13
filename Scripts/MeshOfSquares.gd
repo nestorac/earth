@@ -4,6 +4,8 @@ var square = preload("res://Scenes/Square.tscn")
 export var width = 50
 export var height = 50
 
+export var water_impact = 0.5
+
 enum {WATER, LAND, ICE, GRASS}
 export var islands = 5
 
@@ -39,28 +41,32 @@ func impact(x, y, radius, terrain):
 	# square.set_terrain(terrain, 1.0)
 	
 	for i in range(radius):
-		var aliasing = 1.0
+		var aliasing = water_impact
 		var distance = round ( radius - round( (i*i) / (PI*PI*2) ) )
 #		print ("i: " + str(i) + ", radius: " + str(radius))
 		for j in range( distance ):
 			if (j == (distance - 1) ):
-				aliasing = fmod((i*i) / (PI*PI*2), 1.0)
+				aliasing = fmod((i*i) / (PI*PI*2), 1.0) / 2.0
 				print (aliasing)
 			else:
-				aliasing = 1.0
+				aliasing = water_impact
 			
 			square = get_square(x+i, y+j)
 			if square:
 				square.add_terrain_water(aliasing)
+				square.remove_land(aliasing)
 			square = get_square(x+i, y-j)
 			if square:
 				square.add_terrain_water(aliasing)
+				square.remove_land(aliasing)
 			square = get_square(x-i,y+j)
 			if square:
 				square.add_terrain_water(aliasing)
+				square.remove_land(aliasing)
 			square = get_square(x-i,y-j)
 			if square:
 				square.add_terrain_water(aliasing)
+				square.remove_land(aliasing)
 
 
 func get_square(x, y):
@@ -76,10 +82,10 @@ func update_terrains_random():
 
 
 func _process(delta):
-	if Input.is_action_pressed("test1"):
+	if Input.is_action_just_pressed("test1"):
 		var xy = get_random_coordinates()
 		impact(xy[0],xy[1],randi()%20,WATER)
-	if Input.is_action_pressed("update_terrains"):
+	if Input.is_action_just_pressed("update_terrains"):
 		create_sea()
 		for i in islands:
 			random_land(LAND)
