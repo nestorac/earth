@@ -52,27 +52,38 @@ rect_pivot_offset = Vector2( 639, 209 )
 script = ExtResource( 5 )
 
 [node name="BtWater" type="Button" parent="UI"]
-margin_left = 18.0
-margin_top = 18.0
-margin_right = 68.0
-margin_bottom = 38.0
+margin_left = 19.0
+margin_top = 90.0
+margin_right = 69.0
+margin_bottom = 110.0
 rect_scale = Vector2( 3.2411, 2.85379 )
 text = "Water"
 
-[node name="BtEarth" type="Button" parent="UI"]
-margin_left = 22.0
-margin_top = 94.0
-margin_right = 72.0
-margin_bottom = 114.0
+[node name="BtLand" type="Button" parent="UI"]
+margin_left = 23.0
+margin_top = 166.0
+margin_right = 73.0
+margin_bottom = 186.0
 rect_scale = Vector2( 3.12496, 2.51868 )
 text = "Earth"
 
 [node name="BtIce" type="Button" parent="UI"]
-margin_left = 23.0
-margin_top = 157.0
-margin_right = 73.0
-margin_bottom = 177.0
+margin_left = 24.0
+margin_top = 229.0
+margin_right = 74.0
+margin_bottom = 249.0
 rect_scale = Vector2( 3.09361, 2.66945 )
 text = "Ice"
 
+[node name="BtNormal" type="Button" parent="UI"]
+margin_left = 25.0
+margin_top = 19.0
+margin_right = 84.0
+margin_bottom = 39.0
+rect_scale = Vector2( 2.59983, 2.51249 )
+text = "Normal"
+
 [connection signal="button_up" from="UI/BtWater" to="UI" method="_on_BtWater_button_up"]
+[connection signal="button_up" from="UI/BtLand" to="UI" method="_on_BtLand_button_up"]
+[connection signal="button_up" from="UI/BtIce" to="UI" method="_on_BtIce_button_up"]
+[connection signal="button_up" from="UI/BtNormal" to="UI" method="_on_BtNormal_button_up"]
