@@ -4,10 +4,11 @@ var square = preload("res://Scenes/Square.tscn")
 export var width = 50
 export var height = 50
 
-export var water_impact = 0.5
+export var water_impact = 50
 
-enum {WATER, LAND, ICE, GRASS}
+enum {NONE, WATER, LAND, ICE, GRASS}
 export var islands = 5
+export var layer = NONE
 
 var squares = []
 
@@ -16,6 +17,15 @@ var squares = []
 #	for i in range(width):
 #		for j in range(height):
 ##			squares[i][j].set_terrain(WATER)
+
+
+# iterate: perform the necessary steps to advance time by 1 day
+func iterate():
+	pass
+	
+
+func set_layer(_layer):
+	layer = _layer
 
 
 func create_sea():
@@ -43,10 +53,9 @@ func impact(x, y, radius, terrain):
 	for i in range(radius):
 		var aliasing = water_impact
 		var distance = round ( radius - round( (i*i) / (PI*PI*2) ) )
-#		print ("i: " + str(i) + ", radius: " + str(radius))
 		for j in range( distance ):
 			if (j == (distance - 1) ):
-				aliasing = fmod((i*i) / (PI*PI*2), 1.0) / 2.0
+				aliasing = 100 * fmod((i*i) / (PI*PI*2), 1.0) / 2.0
 				print (aliasing)
 			else:
 				aliasing = water_impact
@@ -73,7 +82,8 @@ func get_square(x, y):
 	if (x <= width) and (y <= height):
 		return get_node("test_" + str(x) + "_" + str(y))
 	else:
-		print ("Coordinates must be lower than " + str(width) + " width and " + str(height) + " height.")
+		pass
+#		print ("Coordinates must be lower than " + str(width) + " width and " + str(height) + " height.")
 		
 
 func update_terrains_random():

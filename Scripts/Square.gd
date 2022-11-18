@@ -11,10 +11,11 @@ var mat = SpatialMaterial.new()
 var color = Color(0, 0, 0)
 var st = SurfaceTool.new()
 
-#enum {NONE, WATER, LAND, ICE, GRASS}
+enum {NONE, WATER, LAND, ICE, GRASS}
+
 #var layer = NONE
 
-var water_depth = 0 # between 0 and 200
+var water_depth = 0 # between 0 and 100
 var land_elevation = 50 # between 0 and 100
 var ice_depth = 0.0 # between 0 and 1
 var grass = false
@@ -30,6 +31,7 @@ var escaque = Vector2(0,0)
 func _process(delta):
 	if Input.is_action_just_pressed("test2"):
 		draw_square()
+
 
 func set_neighbors(_up, _down, _left, _right):
 	if (_up != null):
@@ -49,8 +51,8 @@ func remove_land(land):
 
 func add_terrain_water(water):
 	water_depth += water
-	if water_depth > 1.0:
-		water_depth = 1.0
+	if water_depth > 100:
+		water_depth = 100
 	draw_square()
 
 
@@ -58,14 +60,14 @@ func add_terrain_water(water):
 func draw_square_water():
 	var material = get_surface_material(0)
 	
-	color = Color(water_depth*0.1, water_depth*0.1, water_depth*1)
+	color = Color(water_depth/100*0.1, water_depth/100*0.1, water_depth/100*1)
 	material.albedo_color = color
 
 
 func draw_square_land():
 	var material = get_surface_material(0)
 	
-	color = color + Color(land_elevation*1, land_elevation*0.66, land_elevation*0)
+	color = Color(land_elevation/100.0, land_elevation/100.0*0.66, 0)
 	material.albedo_color = color
 
 
@@ -77,17 +79,27 @@ func draw_square_ice():
 
 func draw_square():
 	var material = get_surface_material(0)
+	var mesh_of_squares = get_parent()
 	
-	if ice_depth > 0:
-		color = Color(ice_depth*0.15, ice_depth, ice_depth)
-	elif water_depth > 0:
-		color = Color(water_depth*0.1, water_depth*0.1, water_depth)
-		if land_elevation > 0:
-			color = color + Color(land_elevation/100, (land_elevation/100)*0.66, 0)
-	elif land_elevation > 0:
-		color = Color(land_elevation/100, land_elevation/100*0.66, 0)
-	if grass:
-		color = Color(0.1, 0.7, 0.1)
+	if mesh_of_squares.layer == NONE:
+		if ice_depth > 0:
+			color = Color(ice_depth*0.15, ice_depth, ice_depth)
+		elif water_depth > 0:
+			color = Color(water_depth*0.1, water_depth*0.1, water_depth)
+			if land_elevation > 0:
+				color = color + Color(land_elevation/100, (land_elevation/100)*0.66, 0)
+		elif land_elevation > 0:
+			color = Color(land_elevation/100, land_elevation/100*0.66, 0)
+		if grass:
+			color = Color(0.1, 0.7, 0.1)
+	elif mesh_of_squares.layer == WATER:
+		draw_square_water()
+	elif mesh_of_squares.layer == LAND:
+		draw_square_land()
+	elif mesh_of_squares.layer == ICE:
+		draw_square_ice()
+#	elif mesh_of_squares.layer == GRASS:
+#		draw_square_grass()
 	material.albedo_color = color
 
 
