@@ -1,14 +1,17 @@
 extends MultiMeshInstance
 
+
 var square = preload("res://Scenes/Square.tscn")
 export var width = 50
-export var height = 50
+export var height = 40
 
-export var water_impact = 50
+export var land_to_be_removed = 25
 
-enum {NONE, WATER, LAND, ICE, GRASS}
+export var water_impact = 50.0
+
 export var islands = 5
-export var layer = NONE
+export var layer = GlobalVars.layer.NONE
+export var world_temperature_celsius = 21
 
 var squares = []
 
@@ -20,7 +23,7 @@ var squares = []
 
 
 # iterate: perform the necessary steps to advance time by 1 day
-func iterate():
+func next_turn():
 	pass
 	
 
@@ -30,7 +33,7 @@ func set_layer(_layer):
 
 func create_sea():
 	for child in get_children():
-		child.set_terrain(WATER, 1.0)
+		child.set_terrain(GlobalVars.layer.WATER, 1.0)
 
 func random_land(terrain):
 	var array = get_children()
@@ -53,52 +56,78 @@ func impact(x, y, radius, terrain):
 	for i in range(radius):
 		var aliasing = water_impact
 		var distance = round ( radius - round( (i*i) / (PI*PI*2) ) )
+		
 		for j in range( distance ):
 			if (j == (distance - 1) ):
-				aliasing = 100 * fmod((i*i) / (PI*PI*2), 1.0) / 2.0
-				print (aliasing)
-			else:
-				aliasing = water_impact
+				aliasing = water_impact * fmod((i*i) / (PI*PI*2.0), 1.0) / 2.0
 			
-			square = get_square(x+i, y+j)
-			if square:
-				square.add_terrain_water(aliasing)
-				square.remove_land(aliasing)
-			square = get_square(x+i, y-j)
-			if square:
-				square.add_terrain_water(aliasing)
-				square.remove_land(aliasing)
-			square = get_square(x-i,y+j)
-			if square:
-				square.add_terrain_water(aliasing)
-				square.remove_land(aliasing)
-			square = get_square(x-i,y-j)
-			if square:
-				square.add_terrain_water(aliasing)
-				square.remove_land(aliasing)
+			if (i == 0) and (j == 0):
+				square = get_square(x, y)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+			
+			if (i == 0) and (j != 0):
+				square = get_square(x, y+j)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+				square = get_square(x, y-j)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+			if (j == 0) and (i != 0):
+				square = get_square(x+i, y)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+				square = get_square(x-i, y)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+			if (i != 0 and j != 0):
+				square = get_square(x+i, y+j)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+				square = get_square(x+i, y-j)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+				square = get_square(x-i,y+j)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
+				square = get_square(x-i,y-j)
+				if square:
+					square.add_terrain_water(aliasing)
+					square.remove_land(land_to_be_removed*aliasing/100.0)
 
 
 func get_square(x, y):
-	if (x <= width) and (y <= height):
-		return get_node("test_" + str(x) + "_" + str(y))
-	else:
-		pass
+	if x < width and y < height and x >= 0 and y >= 0:
+		var node = get_node("test_" + str(x) + "_" + str(y))
+		if node:
+			return node
+#	else:
 #		print ("Coordinates must be lower than " + str(width) + " width and " + str(height) + " height.")
 		
 
 func update_terrains_random():
 	for child in get_children():
-		child.set_terrain(child.choose_random([WATER, LAND, ICE, GRASS]))
+		child.set_terrain(child.choose_random([GlobalVars.layer.WATER,
+						GlobalVars.layer.LAND, GlobalVars.layer.ICE,
+						GlobalVars.layer.GRASS]))
 
 
 func _process(delta):
 	if Input.is_action_just_pressed("test1"):
 		var xy = get_random_coordinates()
-		impact(xy[0],xy[1],randi()%20,WATER)
+		impact(xy[0],xy[1],randi()%20,GlobalVars.layer.WATER)
 	if Input.is_action_just_pressed("update_terrains"):
 		create_sea()
 		for i in islands:
-			random_land(LAND)
+			random_land(GlobalVars.layer.LAND)
 
 func _ready():
 	var square_instance

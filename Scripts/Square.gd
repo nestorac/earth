@@ -11,7 +11,7 @@ var mat = SpatialMaterial.new()
 var color = Color(0, 0, 0)
 var st = SurfaceTool.new()
 
-enum {NONE, WATER, LAND, ICE, GRASS}
+var temperature_celsius = -60.0 # between -100 and +100
 
 #var layer = NONE
 
@@ -60,7 +60,7 @@ func add_terrain_water(water):
 func draw_square_water():
 	var material = get_surface_material(0)
 	
-	color = Color(water_depth/100*0.1, water_depth/100*0.1, water_depth/100*1)
+	color = Color(water_depth/100.0*0.1, water_depth/100.0*0.1, water_depth/100.0*1.0)
 	material.albedo_color = color
 
 
@@ -77,28 +77,37 @@ func draw_square_ice():
 	color = Color(ice_depth*0.15, ice_depth*1, ice_depth*1)
 	material.albedo_color = color
 
+func draw_square_temp():
+	var material = get_surface_material(0)
+	
+	color = Color((temperature_celsius+100)/200.0, 0, 1.0-(temperature_celsius+100)/200.0)
+		
+	material.albedo_color = color
+
 func draw_square():
 	var material = get_surface_material(0)
 	var mesh_of_squares = get_parent()
 	
-	if mesh_of_squares.layer == NONE:
+	if mesh_of_squares.layer == GlobalVars.layer.NONE:
 		if ice_depth > 0:
 			color = Color(ice_depth*0.15, ice_depth, ice_depth)
 		elif water_depth > 0:
-			color = Color(water_depth*0.1, water_depth*0.1, water_depth)
+			color = Color(water_depth/100.0*0.1, water_depth/100.0*0.1, water_depth/100.0)
 			if land_elevation > 0:
-				color = color + Color(land_elevation/100, (land_elevation/100)*0.66, 0)
+				color = color + Color(land_elevation/100.0, land_elevation/100.0*0.66, 0)
 		elif land_elevation > 0:
-			color = Color(land_elevation/100, land_elevation/100*0.66, 0)
+			color = Color(land_elevation/100.0, land_elevation/100.0*0.66, 0)
 		if grass:
 			color = Color(0.1, 0.7, 0.1)
-	elif mesh_of_squares.layer == WATER:
+	elif mesh_of_squares.layer == GlobalVars.layer.WATER:
 		draw_square_water()
-	elif mesh_of_squares.layer == LAND:
+	elif mesh_of_squares.layer == GlobalVars.layer.LAND:
 		draw_square_land()
-	elif mesh_of_squares.layer == ICE:
+	elif mesh_of_squares.layer == GlobalVars.layer.ICE:
 		draw_square_ice()
-#	elif mesh_of_squares.layer == GRASS:
+	elif mesh_of_squares.layer == GlobalVars.layer.TEMP:
+		draw_square_temp()
+#	elif mesh_of_squares.layer == GlobalVars.layer.GRASS:
 #		draw_square_grass()
 	material.albedo_color = color
 

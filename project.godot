@@ -24,6 +24,10 @@ config/name="Earth"
 run/main_scene="res://Globe.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+GlobalVars="*res://Scripts/GlobalVars.gd"
+
 [input]
 
 ui_select={

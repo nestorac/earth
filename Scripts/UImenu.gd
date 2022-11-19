@@ -1,7 +1,5 @@
 extends Control
 
-enum {NONE, WATER, LAND, ICE, GRASS}
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -13,34 +11,41 @@ func _ready():
 
 
 func hide_squares(layer):
-	var mmi = $"../MultiMeshInstance"
+	var mmi = $"../World"
 	for square in mmi.get_children():
 		pass # TODO
 
 
 func _on_BtWater_button_up():
-	var mmi = $"../MultiMeshInstance"
-	mmi.set_layer(WATER)
+	var mmi = $"../World"
+	mmi.set_layer(GlobalVars.WATER)
 	for square in mmi.get_children():
 		square.draw_square_water()
 
 
 func _on_BtLand_button_up():
-	var mmi = $"../MultiMeshInstance"
-	mmi.set_layer(LAND)
+	var mmi = $"../World"
+	mmi.set_layer(GlobalVars.layer.LAND)
 	for square in mmi.get_children():
 		square.draw_square_land()
 
 
 func _on_BtIce_button_up():
-	var mmi = $"../MultiMeshInstance"
-	mmi.set_layer(ICE)
+	var mmi = $"../World"
+	mmi.set_layer(GlobalVars.layer.ICE)
 	for square in mmi.get_children():
 		square.draw_square_ice()
 
 
 func _on_BtNormal_button_up():
-	var mmi = $"../MultiMeshInstance"
-	mmi.set_layer(NONE)
+	var mmi = $"../World"
+	mmi.set_layer(GlobalVars.layer.NONE)
+	for square in mmi.get_children():
+		square.draw_square()
+
+
+func _on_BtTemp_button_up():
+	var mmi = $"../World"
+	mmi.set_layer(GlobalVars.layer.TEMP)
 	for square in mmi.get_children():
 		square.draw_square()
