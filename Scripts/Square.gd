@@ -11,7 +11,7 @@ var mat = SpatialMaterial.new()
 var color = Color(0, 0, 0)
 var st = SurfaceTool.new()
 
-var temperature_celsius = -60.0 # between -100 and +100
+var temperature_celsius = 21.0 # between -100 and +100
 
 #var layer = NONE
 
@@ -32,6 +32,16 @@ func _process(delta):
 	if Input.is_action_just_pressed("test2"):
 		draw_square()
 
+
+func compute_temp_celsius():
+	temperature_celsius = -land_elevation + water_depth
+
+
+func set_temperature_celsius(temp):
+	if temp >= -100.0 and temp <= 100.0:
+		temperature_celsius = temp
+	else:
+		print ("Temperature ()" + temp + "ºC) is out of range (-100..100ºC)")
 
 func set_neighbors(_up, _down, _left, _right):
 	if (_up != null):

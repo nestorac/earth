@@ -11,7 +11,7 @@ export var water_impact = 50.0
 
 export var islands = 5
 export var layer = GlobalVars.layer.NONE
-export var world_temperature_celsius = 21
+export var world_temperature_celsius = 21.0
 
 var squares = []
 
@@ -24,7 +24,10 @@ var squares = []
 
 # iterate: perform the necessary steps to advance time by 1 day
 func next_turn():
-	pass
+	# Calculate individual temperature
+	for child in get_children():
+		child.compute_temp_celsius()
+		child.draw_square()
 	
 
 func set_layer(_layer):
