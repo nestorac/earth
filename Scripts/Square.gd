@@ -25,6 +25,9 @@ var down
 var left
 var right
 
+var coord_x
+var coord_y
+
 var escaque = Vector2(0,0)
 
 
@@ -87,10 +90,16 @@ func draw_square_ice():
 	color = Color(ice_depth*0.15, ice_depth*1, ice_depth*1)
 	material.albedo_color = color
 
+
+func get_square_temp_color(temp_c):
+	return Color((temperature_celsius+100)/200.0, 0, 1.0-(temperature_celsius+100)/200.0)
+
+
 func draw_square_temp():
 	var material = get_surface_material(0)
 	
 	color = Color((temperature_celsius+100)/200.0, 0, 1.0-(temperature_celsius+100)/200.0)
+#	color = get_square_temp_color(temperature_celsius)
 		
 	material.albedo_color = color
 

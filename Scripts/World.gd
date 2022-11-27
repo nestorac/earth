@@ -22,13 +22,33 @@ var squares = []
 ##			squares[i][j].set_terrain(WATER)
 
 
+func init_temp_c():
+	var equator = round(height / 2.0)
+	
+	var squares = get_children()
+	
+	for square in squares:
+		var coord_y = square.coord_y
+#		var coord_x = square.coord_x
+		
+		square.temperature_celsius = -abs(coord_y - equator) + 50.0
+		
+		square.draw_square_temp()
+		
+
+func test():
+	for i in get_children():
+		print (i.temperature_celsius)
+
 # iterate: perform the necessary steps to advance time by 1 day
 func next_turn():
+	pass
 	# Calculate individual temperature
-	for child in get_children():
-		child.compute_temp_celsius()
-		child.draw_square()
+#	for child in get_children():
+#		child.compute_temp_celsius()
+#		child.draw_square()
 	
+
 
 func set_layer(_layer):
 	layer = _layer
@@ -150,6 +170,8 @@ func _ready():
 			square_instance.escaque_label.text = str(i) + " " + str(j)
 			square_instance.transform.origin = Vector3(i,0,j)
 			square_instance.set_name("test_" + str(i) + "_" + str(j))
+			square_instance.coord_x = i
+			square_instance.coord_y = j
 	
 	
 	for i in range(width):
@@ -172,3 +194,5 @@ func _ready():
 				right = null
 			square_instance.set_neighbors(up, down, left, right)
 			
+	init_temp_c()
+	test()
