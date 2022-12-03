@@ -9,6 +9,9 @@ export var land_to_be_removed = 25
 
 export var water_impact = 50.0
 
+var max_temp_c
+var min_temp_c
+
 export var islands = 5
 export var layer = GlobalVars.layer.NONE
 export var world_temperature_celsius = 21.0
@@ -27,13 +30,22 @@ func init_temp_c():
 	
 	var squares = get_children()
 	
+	max_temp_c = squares[0].temperature_celsius
+	min_temp_c = squares[0].temperature_celsius
+	
+	for square in squares:
+		if max_temp_c < square.temperature_celsius:
+			max_temp_c = square.temperature_celsius
+		
+		if min_temp_c > square.temperature_celsius:
+			min_temp_c = square.temperature_celsius
+	
 	for square in squares:
 		var coord_y = square.coord_y
 #		var coord_x = square.coord_x
 		
-		square.temperature_celsius = -abs(coord_y - equator) + 50.0
-		
-		square.draw_square_temp()
+		square.temperature_celsius = abs(coord_y - equator)*10.0
+		square.draw_square_temp(min_temp_c,max_temp_c)
 		
 
 func test():
@@ -42,11 +54,8 @@ func test():
 
 # iterate: perform the necessary steps to advance time by 1 day
 func next_turn():
+	
 	pass
-	# Calculate individual temperature
-#	for child in get_children():
-#		child.compute_temp_celsius()
-#		child.draw_square()
 	
 
 

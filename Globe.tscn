@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/CamBase.gd" type="Script" id=3]
@@ -6,6 +6,31 @@
 [ext_resource path="res://Scripts/World.gd" type="Script" id=7]
 
 [sub_resource type="MultiMesh" id=2]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform vec4 first_color : hint_color = vec4(1.0);
+uniform vec4 second_color : hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform float position : hint_range(-0.5, 0.5) = 0.0;
+uniform float size : hint_range(0.5, 2) = 0.5;
+uniform float angle : hint_range(0.0, 360.0) = 0.0;
+
+void fragment() {
+	float pivot = position + 0.5;
+	vec2 uv = UV - pivot;
+	float rotated = uv.x * cos(radians(angle)) - uv.y * sin(radians(angle)); 
+	float pos = smoothstep((1.0 - size) + position, size + 0.0001 + position, rotated + pivot);
+	COLOR = mix(first_color, second_color, pos); 
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/first_color = Color( 0.188235, 0.227451, 0.639216, 1 )
+shader_param/second_color = Color( 0.588235, 0.192157, 0.192157, 1 )
+shader_param/position = 0.0
+shader_param/size = 1.662
+shader_param/angle = 90.0
 
 [node name="Game" type="Spatial"]
 script = ExtResource( 1 )
@@ -67,6 +92,13 @@ margin_right = 84.0
 margin_bottom = 39.0
 rect_scale = Vector2( 2.59983, 2.51249 )
 text = "Normal"
+
+[node name="Gradient" type="ColorRect" parent="UI"]
+material = SubResource( 4 )
+margin_left = 31.0
+margin_top = 384.0
+margin_right = 184.0
+margin_bottom = 580.0
 
 [node name="TurnTimer" type="Timer" parent="."]
 autostart = true

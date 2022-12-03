@@ -95,12 +95,32 @@ func get_square_temp_color(temp_c):
 	return Color((temperature_celsius+100)/200.0, 0, 1.0-(temperature_celsius+100)/200.0)
 
 
-func draw_square_temp():
-	var material = get_surface_material(0)
+#func draw_square_temp():
+#	var material = get_surface_material(0)
+#
+#	color = Color((temperature_celsius+100)/200.0, 0, 1.0-(temperature_celsius+100)/200.0)
+##	color = get_square_temp_color(temperature_celsius)
+#
+#	material.albedo_color = color
 	
-	color = Color((temperature_celsius+100)/200.0, 0, 1.0-(temperature_celsius+100)/200.0)
-#	color = get_square_temp_color(temperature_celsius)
-		
+func draw_square_temp(_min, _max):
+	var material = get_surface_material(0)
+	var color1 = Color (1.0, 0, 0, 0)
+	var color2 = Color (0, 0, 1.0, 0)
+	
+	if _max == _min:
+		color = color1.linear_interpolate(color2, temperature_celsius/200.0)
+	else:
+		if _min != 0:
+			color = color1.linear_interpolate(color2, abs(_max/_min))
+	
+#	if temperature_celsius > 40:
+#		color = Color(temperature_celsius/(_max), 0, 0)
+#	else:
+#		color = Color(0, 0, temperature_celsius/(_max))
+#
+#	color = Color((temperature_celsius-40.0)/(100.0), 0, (temperature_celsius+40)/100.0)
+
 	material.albedo_color = color
 
 func draw_square():
@@ -125,7 +145,7 @@ func draw_square():
 	elif mesh_of_squares.layer == GlobalVars.layer.ICE:
 		draw_square_ice()
 	elif mesh_of_squares.layer == GlobalVars.layer.TEMP:
-		draw_square_temp()
+		draw_square_temp(-100,100)
 #	elif mesh_of_squares.layer == GlobalVars.layer.GRASS:
 #		draw_square_grass()
 	material.albedo_color = color
