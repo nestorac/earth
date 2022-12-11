@@ -11,7 +11,7 @@ var mat = SpatialMaterial.new()
 var color = Color(0, 0, 0)
 var st = SurfaceTool.new()
 
-var temperature_celsius = 21.0 # between -100 and +100
+export var temperature_celsius = 10.0 # between -100 and +100
 
 #var layer = NONE
 
@@ -105,21 +105,15 @@ func get_square_temp_color(temp_c):
 	
 func draw_square_temp(_min, _max):
 	var material = get_surface_material(0)
-	var color1 = Color (1.0, 0, 0, 0)
-	var color2 = Color (0, 0, 1.0, 0)
+	var value = 0.0
 	
 	if _max == _min:
-		color = color1.linear_interpolate(color2, temperature_celsius/200.0)
+		value = _min - temperature_celsius
 	else:
-		if _min != 0:
-			color = color1.linear_interpolate(color2, abs(_max/_min))
+		value = abs( ( float(_min - temperature_celsius) ) / (float ( (_max - _min) ) ) )
+		print (abs(value)) 
 	
-#	if temperature_celsius > 40:
-#		color = Color(temperature_celsius/(_max), 0, 0)
-#	else:
-#		color = Color(0, 0, temperature_celsius/(_max))
-#
-#	color = Color((temperature_celsius-40.0)/(100.0), 0, (temperature_celsius+40)/100.0)
+	color = GlobalVars.color_min.linear_interpolate(GlobalVars.color_max, value)
 
 	material.albedo_color = color
 
@@ -201,7 +195,7 @@ func _ready():
 	load_fig()
 	init()
 	play()
-#	escaquear() # Draw coordinates on every square. Debugging purposes.
+	escaquear() # Draw coordinates on every square. Debugging purposes.
 	
 	set_surface_material(0, _material)
 	

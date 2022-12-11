@@ -9,8 +9,8 @@ export var land_to_be_removed = 25
 
 export var water_impact = 50.0
 
-var max_temp_c
-var min_temp_c
+var max_temp_c = 0.0
+var min_temp_c = 0.0
 
 export var islands = 5
 export var layer = GlobalVars.layer.NONE
@@ -34,6 +34,13 @@ func init_temp_c():
 	min_temp_c = squares[0].temperature_celsius
 	
 	for square in squares:
+		var coord_y = square.coord_y
+		var distance = abs( coord_y - equator )
+		
+		if distance != 0.0:
+			square.temperature_celsius = 10.0 / (distance)
+		else:
+			square.temperature_celsius = 10.0
 		if max_temp_c < square.temperature_celsius:
 			max_temp_c = square.temperature_celsius
 		
@@ -41,16 +48,11 @@ func init_temp_c():
 			min_temp_c = square.temperature_celsius
 	
 	for square in squares:
-		var coord_y = square.coord_y
-#		var coord_x = square.coord_x
-		
-		square.temperature_celsius = abs(coord_y - equator)*10.0
 		square.draw_square_temp(min_temp_c,max_temp_c)
+		square.escaque_label.text = str(square.temperature_celsius)
+		print ("temp: ", square.temperature_celsius, ", min: ", min_temp_c, ", max: ", max_temp_c)
 		
-
-func test():
-	for i in get_children():
-		print (i.temperature_celsius)
+		
 
 # iterate: perform the necessary steps to advance time by 1 day
 func next_turn():
@@ -83,7 +85,6 @@ func get_random_coordinates():
 
 func impact(x, y, radius, terrain):
 	var square = get_square(x,y)
-	# square.set_terrain(terrain, 1.0)
 	
 	for i in range(radius):
 		var aliasing = water_impact
@@ -96,6 +97,7 @@ func impact(x, y, radius, terrain):
 			if (i == 0) and (j == 0):
 				square = get_square(x, y)
 				if square:
+					square.temperature_celsius = 100
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			
@@ -176,7 +178,7 @@ func _ready():
 			squares[i].append(square.instance())
 			add_child(square_instance)
 			square_instance.escaque = Vector2(i, j)
-			square_instance.escaque_label.text = str(i) + " " + str(j)
+			square_instance.escaque_label.text = str(square_instance.temperature_celsius)
 			square_instance.transform.origin = Vector3(i,0,j)
 			square_instance.set_name("test_" + str(i) + "_" + str(j))
 			square_instance.coord_x = i
@@ -204,4 +206,3 @@ func _ready():
 			square_instance.set_neighbors(up, down, left, right)
 			
 	init_temp_c()
-	test()
