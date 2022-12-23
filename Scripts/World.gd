@@ -12,6 +12,8 @@ export var water_impact = 50.0
 var max_temp_c = 0.0
 var min_temp_c = 0.0
 
+const TEMP_IMPACT = 30.0
+
 export var islands = 5
 export var layer = GlobalVars.layer.NONE
 export var world_temperature_celsius = 21.0
@@ -25,6 +27,20 @@ var squares = []
 ##			squares[i][j].set_terrain(WATER)
 
 
+func refresh_min_max_temp():
+	var squares = get_children()
+	
+	max_temp_c = squares[0].temperature_celsius
+	min_temp_c = squares[0].temperature_celsius
+	
+	for square in squares:
+		if max_temp_c < square.temperature_celsius:
+			max_temp_c = square.temperature_celsius
+		
+		if min_temp_c > square.temperature_celsius:
+			min_temp_c = square.temperature_celsius
+
+
 func init_temp_c():
 	var equator = round(height / 2.0)
 	
@@ -35,12 +51,12 @@ func init_temp_c():
 	
 	for square in squares:
 		var coord_y = square.coord_y
-		var distance = abs( coord_y - equator )
+		var distance = abs( coord_y )
+		if distance > equator:
+			distance = height - distance
 		
-		if distance != 0.0:
-			square.temperature_celsius = 10.0 / (distance)
-		else:
-			square.temperature_celsius = 10.0
+		square.temperature_celsius = distance
+		
 		if max_temp_c < square.temperature_celsius:
 			max_temp_c = square.temperature_celsius
 		
@@ -96,44 +112,52 @@ func impact(x, y, radius, terrain):
 			
 			if (i == 0) and (j == 0):
 				square = get_square(x, y)
+				square.temperature_celsius = TEMP_IMPACT
 				if square:
-					square.temperature_celsius = 100
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			
 			if (i == 0) and (j != 0):
 				square = get_square(x, y+j)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x, y-j)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			if (j == 0) and (i != 0):
 				square = get_square(x+i, y)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x-i, y)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			if (i != 0 and j != 0):
 				square = get_square(x+i, y+j)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x+i, y-j)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x-i,y+j)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x-i,y-j)
 				if square:
+					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 

@@ -44,6 +44,7 @@ func _on_BtIce_button_up():
 func _on_BtTemp_button_up():
 	var mmi = $"../World"
 	mmi.set_layer(GlobalVars.layer.TEMP)
+	mmi.refresh_min_max_temp()
 	for square in mmi.get_children():
 		square.draw_square_temp(mmi.min_temp_c, mmi.max_temp_c)
 
