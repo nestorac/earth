@@ -12,7 +12,7 @@ export var water_impact = 50.0
 var max_temp_c = 0.0
 var min_temp_c = 0.0
 
-const TEMP_IMPACT = 30.0
+const TEMP_IMPACT = 3000.0
 
 export var islands = 5
 export var layer = GlobalVars.layer.NONE
