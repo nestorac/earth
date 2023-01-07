@@ -106,18 +106,24 @@ func get_square_temp_color(temp_c):
 func draw_square_temp(_min, _max):
 	var material = get_surface_material(0)
 	var value = 0.0
-	
-	if _max > 20:
-		_max = 20.0
-	
-	if _max == _min:
-		value = _min - temperature_celsius
-	else:
-		value = abs( ( float(_min - temperature_celsius) ) / (float ( (_max - _min) ) ) )
-		print (abs(value)) 
+#
+#	if _max > 20:
+#		_max = 20.0
+#
+#	if _max == _min:
+#		value = _min - temperature_celsius
+#	else:
+#		value = abs( ( float(_min - temperature_celsius) ) / (float ( (_max - _min) ) ) )
+#		print (abs(value)) 
 	
 #	color = GlobalVars.color_min.linear_interpolate(GlobalVars.color_max, value)
-	color = GlobalVars.color_min.cubic_interpolate(GlobalVars.color_max, value)
+	
+	
+	value = abs( ( float(_min - temperature_celsius) ) / (float ( (_max - _min) ) ) )
+
+#	color = GlobalVars.log_color(Color(0.0,0.0,1.0,1.0), Color(1.0,0.0,0.0,1.0), value)
+
+	color = GlobalVars.color_min.linear_interpolate(GlobalVars.color_max, log(value))
 	
 	print ("Value: ", value)
 	
