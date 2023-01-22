@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Debugging.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/CamBase.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/UImenu.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/World.gd" type="Script" id=7]
@@ -117,6 +118,36 @@ margin_bottom = 391.0
 rect_scale = Vector2( 1.70223, 2.30568 )
 text = "max: 0ºC"
 
+[node name="Debugging" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="DebuggingNextDay" type="Button" parent="UI/Debugging"]
+margin_left = 865.0
+margin_top = 511.0
+margin_right = 937.0
+margin_bottom = 547.0
+rect_scale = Vector2( 2.01518, 2.01335 )
+text = "Next day"
+
+[node name="debugging_day" type="Label" parent="UI/Debugging"]
+margin_left = 889.0
+margin_top = 17.0
+margin_right = 929.0
+margin_bottom = 31.0
+rect_scale = Vector2( 2.97483, 3.13842 )
+text = "0"
+align = 2
+
+[node name="DebuggingPause" type="Button" parent="UI/Debugging"]
+margin_left = 690.0
+margin_top = 533.0
+margin_right = 753.0
+margin_bottom = 553.0
+rect_scale = Vector2( 2.53245, 2.52203 )
+text = "Pause"
+
 [node name="TurnTimer" type="Timer" parent="."]
 autostart = true
 
@@ -125,4 +156,6 @@ autostart = true
 [connection signal="button_up" from="UI/BtIce" to="UI" method="_on_BtIce_button_up"]
 [connection signal="button_up" from="UI/BtTemp" to="UI" method="_on_BtTemp_button_up"]
 [connection signal="button_up" from="UI/BtNormal" to="UI" method="_on_BtNormal_button_up"]
+[connection signal="pressed" from="UI/Debugging/DebuggingPause" to="." method="_on_DebuggingPause_pressed"]
 [connection signal="timeout" from="TurnTimer" to="." method="_on_TurnTimer_timeout"]
+[connection signal="timeout" from="TurnTimer" to="UI/Debugging" method="_on_TurnTimer_timeout"]

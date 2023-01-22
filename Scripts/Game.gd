@@ -7,9 +7,19 @@ onready var ui = $UI
 func _ready():
 	pass # Replace with function body.
 
+func _on_DebuggingPause_pressed():
+	pause_days()
 
+func pause_days():
+	if $TurnTimer.paused:
+		$TurnTimer.paused = false
+		$UI/Debugging/DebuggingPause.text = "Pause"
+	else:
+		$TurnTimer.paused = true
+		$UI/Debugging/DebuggingPause.text = "Continue"
 
 func _on_TurnTimer_timeout():
+	GlobalVars.day += 1
 	var ui_min_temp = $UI/min_temp
 	var ui_max_temp = $UI/max_temp
 	var world = $World
@@ -28,4 +38,8 @@ func _on_TurnTimer_timeout():
 	ui_max_temp.set_text(str("max: ", world_max_temp, "ºC"))
 	ui_min_temp.set_text(str("min: ", world_min_temp, "ºC"))
 	
-	mmi.next_turn()
+	print ("max: ", world_max_temp, "ºC")
+	print ("min: ", world_min_temp, "ºC")
+	
+	mmi.next_day()
+

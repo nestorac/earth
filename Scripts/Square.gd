@@ -125,7 +125,7 @@ func draw_square_temp(_min, _max):
 
 	color = GlobalVars.color_min.linear_interpolate(GlobalVars.color_max, log(value))
 	
-	print ("Value: ", value, " log(value); ", log(value))
+#	print ("Value: ", value, " log(value); ", log(value))
 	
 	material.albedo_color = color
 

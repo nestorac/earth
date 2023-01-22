@@ -5,6 +5,8 @@ enum layer {NONE, WATER, LAND, ICE, GRASS, TEMP}
 export var color_min = Color (0.0, 0.0, 1.0, 1.0)
 export var color_max = Color (1.0, 0.0, 0.0, 1.0)
 
+export var day = 0
+
 func log_color(color_a:Color, color_b:Color, t:float):
 
 	# Calcula el logaritmo de cada componente del color inicial y final

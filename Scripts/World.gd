@@ -66,12 +66,12 @@ func init_temp_c():
 	for square in squares:
 		square.draw_square_temp(min_temp_c,max_temp_c)
 		square.escaque_label.text = str(square.temperature_celsius)
-		print ("temp: ", square.temperature_celsius, ", min: ", min_temp_c, ", max: ", max_temp_c)
+#		print ("temp: ", square.temperature_celsius, ", min: ", min_temp_c, ", max: ", max_temp_c)
 		
 		
 
 # iterate: perform the necessary steps to advance time by 1 day
-func next_turn():
+func next_day():
 	
 	pass
 	
