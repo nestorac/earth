@@ -73,9 +73,30 @@ func init_temp_c():
 # iterate: perform the necessary steps to advance time by 1 day
 func next_day():
 	# Process all the events for a day.
+	GlobalVars.day += 1
+	var ui_min_temp = $"../UI/min_temp"
+	var ui_max_temp = $"../UI/max_temp"
+	refresh_min_max_temp()
+	var world_max_temp = max_temp_c
+	var world_min_temp = min_temp_c
 	
-	pass
+#	var _colors = [PoolColorArray()]
+#	_colors[0].push_back(Color(1.0, 0, 0, 1))
+#	_colors[0].push_back(Color(0, 1.0, 0, 1))
+
 	
+#	var gradient = $UI/Gradient
+#	gradient.set_colors(_colors)
+	var day = $"../UI/Debugging/debugging_day"
+	
+	day.text = str(GlobalVars.day)
+	
+	ui_max_temp.set_text(str("max: ", world_max_temp, "ºC"))
+	ui_min_temp.set_text(str("min: ", world_min_temp, "ºC"))
+	
+#	print ("max: ", world_max_temp, "ºC")
+#	print ("min: ", world_min_temp, "ºC")
+	print (GlobalVars.day)
 
 
 func set_layer(_layer):
@@ -101,7 +122,10 @@ func get_random_coordinates():
 	return [x,y]
 
 func impact(x, y, radius, terrain):
+	var array_coordinates_water = []
 	var square = get_square(x,y)
+	# The radius now will only be one, for debugging purposes.
+	radius = 1
 	
 	for i in range(radius):
 		var aliasing = water_impact
@@ -115,52 +139,66 @@ func impact(x, y, radius, terrain):
 				square = get_square(x, y)
 				square.temperature_celsius = TEMP_IMPACT
 				if square:
+					array_coordinates_water.append([x,y])
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			
 			if (i == 0) and (j != 0):
 				square = get_square(x, y+j)
 				if square:
+					array_coordinates_water.append([x,y+j])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x, y-j)
 				if square:
+					array_coordinates_water.append([x,y+j])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			if (j == 0) and (i != 0):
 				square = get_square(x+i, y)
 				if square:
+					array_coordinates_water.append([x+i,y])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x-i, y)
 				if square:
+					array_coordinates_water.append([x+i,y])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 			if (i != 0 and j != 0):
 				square = get_square(x+i, y+j)
 				if square:
+					array_coordinates_water.append([x+i,y+j])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x+i, y-j)
 				if square:
+					array_coordinates_water.append([x-i,y+j])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x-i,y+j)
 				if square:
+					array_coordinates_water.append([x-i,y+j])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
 				square = get_square(x-i,y-j)
 				if square:
+					array_coordinates_water.append([x-i,y-j])
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
+	flow(array_coordinates_water)
+
+
+func flow(impact_coordinates:Array):
+	print (impact_coordinates)
 
 
 func get_square(x, y):
