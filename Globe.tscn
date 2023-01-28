@@ -156,6 +156,7 @@ autostart = true
 [connection signal="button_up" from="UI/BtIce" to="UI" method="_on_BtIce_button_up"]
 [connection signal="button_up" from="UI/BtTemp" to="UI" method="_on_BtTemp_button_up"]
 [connection signal="button_up" from="UI/BtNormal" to="UI" method="_on_BtNormal_button_up"]
+[connection signal="pressed" from="UI/Debugging/DebuggingNextDay" to="World" method="_on_DebuggingNextDay_pressed"]
 [connection signal="pressed" from="UI/Debugging/DebuggingPause" to="." method="_on_DebuggingPause_pressed"]
 [connection signal="timeout" from="TurnTimer" to="." method="_on_TurnTimer_timeout"]
 [connection signal="timeout" from="TurnTimer" to="UI/Debugging" method="_on_TurnTimer_timeout"]

@@ -72,6 +72,7 @@ func init_temp_c():
 
 # iterate: perform the necessary steps to advance time by 1 day
 func next_day():
+	# Process all the events for a day.
 	
 	pass
 	
@@ -230,3 +231,8 @@ func _ready():
 			square_instance.set_neighbors(up, down, left, right)
 			
 	init_temp_c()
+
+
+func _on_DebuggingNextDay_pressed():
+	next_day()
+	pass # Replace with function body.
