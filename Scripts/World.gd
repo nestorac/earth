@@ -194,11 +194,32 @@ func impact(x, y, radius, terrain):
 					square.temperature_celsius = TEMP_IMPACT * 0.9
 					square.add_terrain_water(aliasing)
 					square.remove_land(land_to_be_removed*aliasing/100.0)
-	flow(array_coordinates_water)
+#	flow(array_coordinates_water)
 
 
 func flow(impact_coordinates:Array):
-	print (impact_coordinates)
+	var water_depth_center = get_square(impact_coordinates[0][0], impact_coordinates[0][1]).water_depth
+#	print ("up: " + str(get_square(impact_coordinates[0][0], impact_coordinates[0][1]).up))
+	var neighbours = [[impact_coordinates[0][0], impact_coordinates[0][1]+1],
+					  [impact_coordinates[0][0]+1, impact_coordinates[0][1]],
+					  [impact_coordinates[0][0], impact_coordinates[0][1]-1],
+					  [impact_coordinates[0][0]-1, impact_coordinates[0][1]-1]]
+	
+	var water_depth_new = water_depth_center / ( neighbours.size() + 1 )
+
+	print ("water depth new: " + str(water_depth_new) )
+	print ("water depth center: " + str(water_depth_center) )
+
+	for element in neighbours:
+		get_square(element[0], element[1]).water_depth = water_depth_new
+		print (element)
+
+	get_square(impact_coordinates[0][0], impact_coordinates[0][1]).water_depth = water_depth_new
+
+#	print (neighbours)
+#
+#	print (impact_coordinates)
+#	print (get_square(impact_coordinates[0][0], impact_coordinates[0][1]).water_depth)
 
 
 func get_square(x, y):
